@@ -167,7 +167,7 @@ function pulseApp() {
         }
 
         for (entry of data.historical.reverse()) {
-            dataTmp.push( [Date.parse( entry._ts ), entry.pulse1] ); 
+            dataTmp.push( [Date.parse( entry._ts ), entry.pulse1 * 5] ); 
         }
 
         this.chart_pulse.addSeries({
