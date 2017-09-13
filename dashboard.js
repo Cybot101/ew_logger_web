@@ -68,6 +68,11 @@ function initialise() {
     chart.createChart();    
 
     loadDeviceData();
+
+    // Refresh chart automatically
+    setTimeout(function() {
+        initialise();
+    }, 20*1000);
 }
 
 function loadDeviceData() {
@@ -77,8 +82,8 @@ function loadDeviceData() {
 
     // Create request body
     const body = {
-        "select":["pulse1","_device_id","_ts"],
-        "limit":50,
+        // "select":["pulse1","_device_id","_ts"],
+        // "limit":50,
         "orderBy":[{"field":"_ts","desc":true}],
         "where":{
             "_ts":
@@ -107,7 +112,7 @@ function loadDeviceData() {
             if (err.responseJSON.statusCode == 401)
             {
                 alertify.success('Token Expired.');
-                signOut();
+                location.reload();
             }
         }
     });
@@ -168,6 +173,7 @@ function pulseApp() {
 
         for (entry of data.historical.reverse()) {
             dataTmp.push( [Date.parse( entry._ts ), entry.pulse1 * 5] ); 
+            // dataTmp.push( [Date.parse( entry._ts ), entry.temperature_x10] ); 
         }
 
         this.chart_pulse.addSeries({
